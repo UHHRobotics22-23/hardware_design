@@ -22,21 +22,36 @@ module side_wall() {
     }
 }
 
+module side_wall_right() {
+    difference() {
+        side_wall();
+        translate([0, 0, -side_wall_thickness-0.1])
+            rotate([180, 0, 0])
+            screw_holes(side_wall_thickness*2, 3, 50);  // 3mm width holes
+    }
+}
+
 module side_wall_left() {
     wall_to_wall_distance = side_wall_center_distance*2-side_wall_thickness/2;
     side_wall();
-    translate([-20, -(mallet_handle_radius*2+5), 0])
-        cylinder(h=wall_to_wall_distance, r=5);
-    translate([-50, -50, 0])
+    difference() {
         union() {
-            cube([side_wall_thickness, 100, wall_to_wall_distance]);
-            translate([side_wall_thickness, 5, wall_to_wall_distance/2+side_wall_thickness/2])
-                rotate([90, 0, 0])
-                rubber_attachment();
-        };
-    translate([-50, 50, 0])
-        rotate([0, 0, -90])
-        cube([side_wall_thickness, 100, wall_to_wall_distance]);
+            translate([-20, -(mallet_handle_radius*2+5), 0])
+                cylinder(h=wall_to_wall_distance, r=5);
+            translate([-50, -50, 0])
+                union() {
+                    cube([side_wall_thickness, 100, wall_to_wall_distance]);
+                    translate([side_wall_thickness, 5, wall_to_wall_distance/2+side_wall_thickness/2])
+                        rotate([90, 0, 0])
+                        rubber_attachment();
+                };
+            translate([-50, 50, 0])
+                rotate([0, 0, -90])
+                cube([side_wall_thickness, 100, wall_to_wall_distance]);
+        }
+        translate([0, 0, wall_to_wall_distance])
+            screw_holes(6, 3, 50);  // 6mm deep 3mm width holes
+    }
 }
 
 module mallet_car() {
@@ -47,6 +62,9 @@ module mallet_car() {
                 cylinder(h=2*(mallet_handle_radius*2+side_wall_thickness+2), r=axel_radius, center=true);
             rotate([90, 0, 0])
                 cylinder(h=2*(mallet_handle_radius*2+1), r=axel_radius*2, center=true);
+            translate([-mallet_handle_radius*2, 0, -30])
+                rotate([90, 0, 0])
+                rubber_attachment();
         }
         
         translate([0, 0, -30])
@@ -65,8 +83,8 @@ module rubber_attachment() {
 
 module mallet_holder() {
     translate([0, side_wall_center_distance, 0])
-    rotate([90, 0, 0])
-    side_wall();
+        rotate([90, 0, 0])
+        side_wall_right();
 
     translate([0, -side_wall_center_distance, 0])
         rotate([-90, 0, 0])
@@ -76,10 +94,24 @@ module mallet_holder() {
         mallet_car();
 }
 
+module screw_holes(depth, width, corners) {
+    posVal = corners - side_wall_thickness / 2;
+    translate([0, 0, -depth+0.001]) {
+        translate([-posVal, -posVal, 0])
+            cylinder(h=depth, r=width/2);
+        translate([-posVal, posVal, 0])
+            cylinder(h=depth, r=width/2);
+        translate([posVal, posVal, 0])
+            cylinder(h=depth, r=width/2);
+    }
+}
+
 mallet_holder();
 
 // translate([100, 100, 0])
-   // side_wall_left();
+    // side_wall_left();
+    // side_wall_right();
 
-// translate([-100, -100, 0])
-   // rubber_attachment();
+// mallet_car();
+// side_wall_left();
+// side_wall();
