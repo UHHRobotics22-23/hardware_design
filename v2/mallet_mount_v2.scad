@@ -72,7 +72,7 @@ module mallet_car() {
                 cylinder(h=2*(mallet_handle_radius*2+side_wall_thickness+2), r=axel_radius, center=true);
             rotate([90, 0, 0])
                 cylinder(h=2*(mallet_handle_radius*2+1), r=5*2, center=true);
-            translate([-mallet_handle_radius*2, 0, -29])
+            translate([-mallet_handle_radius*2, 0, -29.6])
                 rotate([90, 0, 0])
                 rubber_attachment();
         }
@@ -84,7 +84,7 @@ module mallet_car() {
                 cylinder(h=mallet_handle_radius*2, r=3/2,center = true);
         
         translate([0, 0, -30])
-            scale(1.03)
+            scale(1.07)
             mallet();
     }
     
@@ -93,7 +93,7 @@ module mallet_car() {
 module rubber_attachment() {
     rotate_extrude(angle=360) {
         translate([4, 0, 0])
-            circle(r=1.5);
+            circle(r=1.4);
     }
 }
 
@@ -127,10 +127,10 @@ module screw_holes(depth, width, corners) {
 }
 
 //mallet_holder();
- translate([100, 100, 0])
-     side_wall_left();
-     side_wall_right();
-translate([0, 100, 0])
+// translate([100, 100, 0])
+ //    side_wall_left();
+ //    side_wall_right();
+//translate([0, 100, 0])
  mallet_car();
 // side_wall_left();
  //side_wall_right();
