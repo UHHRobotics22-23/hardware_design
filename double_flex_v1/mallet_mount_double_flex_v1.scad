@@ -1,6 +1,6 @@
 $fa = 1;
 $fs = 0.4;
-side_wall_length = 100;
+side_wall_length = 90;
 mallet_length = 393;
 mallet_sphere_radius = 39.6/2;
 axel_radius = 4;
@@ -39,9 +39,9 @@ module side_wall_left() {
     side_wall();
     difference() {//Für die Schrauben
         union() {
-            translate([side_wall_length/2-5, +10, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
+            translate([side_wall_length/2-5, +16, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
                 cube([10,10,wall_to_wall_distance],center=true);//Stopper
-            translate([-10, -side_wall_length/2+5, wall_to_wall_distance/2])
+            translate([-16, -side_wall_length/2+5, wall_to_wall_distance/2])
                 cube([10,10,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
             translate([-side_wall_length/2, -side_wall_length/2, 0])//Wall on Y Axes
                 union() {
@@ -84,9 +84,9 @@ module mallet_car() {
                 cylinder(h=2*(mallet_handle_radius*2+side_wall_thickness+2), r=axel_radius, center=true);
             rotate([90, 0, 0])
                 cylinder(h=2*(mallet_handle_radius*2+1), r=5*2, center=true);
-            translate([0, 0, -37.5])
-                rotate([90, 0, 0])
-                rubber_attachment();
+//            translate([0, 0, -37.5])
+//                rotate([90, 0, 0])
+//                rubber_attachment();
           translate([ -mallet_handle_radius*2,0,-27])
             rotate([90, 0, 0])
                 rubber_attachment();
@@ -102,7 +102,7 @@ module mallet_car() {
                 cylinder(h=mallet_handle_radius*2, r=3/2,center = true);
         
         translate([0, 0, -30])
-            scale(1.03)
+            scale(1.07)
             mallet();
     }
     
@@ -116,9 +116,9 @@ module rubber_attachment() {
 }
 
 module mallet_holder() {
-    translate([0, side_wall_center_distance, 0])
-        rotate([90, 0, 0])
-            side_wall_right();
+//    translate([0, side_wall_center_distance, 0])
+//        rotate([90, 0, 0])
+//            side_wall_right();
 
     translate([0, -side_wall_center_distance, 0])
         rotate([-90, 0, 0])
@@ -138,17 +138,17 @@ module screw_holes(depth, width, corners) {
         translate([posVal, posVal, 0])
             cylinder(h=depth, r=width/2);
         
-        translate([-10, -side_wall_length/2+5, 0])
+        translate([-16, -side_wall_length/2+5, 0])
             cylinder(h=depth, r=width/2);
         
-        translate([side_wall_length/2-5, +10, 0])
+        translate([side_wall_length/2-5, +16, 0])
             cylinder(h=depth, r=width/2);
     }
 }
 
 mallet_holder();
 // translate([100, 100, 0])
-  //  side_wall_left();
+//    side_wall_left();
      
  //    side_wall_right();
 //translate([0, 100, 0])
