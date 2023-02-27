@@ -60,14 +60,15 @@ module side_wall_left() {
 module mallet_car() {
     difference() {
         union() {
-            cube([mallet_handle_radius*4, mallet_handle_radius*4, 70], center=true);
+            translate([0, 0, 5])
+            cube([mallet_handle_radius*5, mallet_handle_radius*5, 80], center=true);
         }
         translate([mallet_handle_radius, 0, 30])
             rotate([0, 90, 0])
-                cylinder(h=mallet_handle_radius*3, r=3/2,center = true);
-        translate([mallet_handle_radius, 0, -25])
+                cylinder(h=mallet_handle_radius*4, r=3/2,center = true);
+        translate([mallet_handle_radius, 0, -15])
             rotate([0, 90, 0])
-                cylinder(h=mallet_handle_radius*3, r=3/2,center = true);
+                cylinder(h=mallet_handle_radius*4, r=3/2,center = true);
         
         translate([0, 0, -30])
             scale(1.05)
@@ -80,6 +81,9 @@ module mallet_car_mod() {
     mallet_car();
     translate([0, 0, -mallet_handle_radius*2-70/2+0.001])
         cube([70, mallet_handle_radius*4, mallet_handle_radius*4], center=true);
+    side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
+    rotate([0, 0, 180])
+        side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
 }
 
 module rubber_attachment() {
@@ -114,12 +118,23 @@ module screw_holes(depth, width, corners) {
     }
 }
 
+module side_slope(slope_height, slope_width) {
+    // I don't understand the 0.4, but it seems necessary
+    translate([0, mallet_handle_radius*2+slope_width/2-0.001, -slope_height/2-70/2+mallet_handle_radius*2+0.4])
+    difference() {
+        cube([mallet_handle_radius*5, slope_width, slope_height], center=true);
+        translate([-100, -slope_width/2, slope_height/2])
+            rotate([-40, 0, 0])
+            cube([200, 200, 200]);
+    }
+}
+
 //mallet_holder();
 
 // translate([100, 100, 0])
     // side_wall_left();
     // side_wall_right();
-
+//side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
 mallet_car_mod();
  //side_wall_left();
  //side_wall_right();
