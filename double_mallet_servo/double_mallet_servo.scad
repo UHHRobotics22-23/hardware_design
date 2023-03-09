@@ -22,17 +22,19 @@ module servo(){
         cube([7,8,5]);
         
     }
+    ///////////Cutting///////////
+    
     union(){ //Cut out Screwholes
-    screwholes();
+    screwholes_servo();
     translate([20,40,0])
     rotate([0,0,180])
-    screwholes();
+    screwholes_servo();
     }
 }
   
 }
 
-module screwholes(){
+module screwholes_servo(){
      translate([0, 0, 7.9]) {
         translate([5, -7.25/2, 0]){
             cylinder(h=3, r=4.4/2);
@@ -44,6 +46,7 @@ module screwholes(){
             translate([-1.8,-4.8,0])
             cube([3.6, 4, 3]); 
         }
+      
     }
 }
 
@@ -72,12 +75,12 @@ module drive_shaft_attachment(){
     
 }
 
-////////////////////////////////Mounting Plate//////////////////////////////
+////////////////////////////////Servo Moveable Mallet//////////////////////////////
 module mounting_plate(){
     difference(){
         union(){
           
-                
+               
             translate([0,-13.3,0]) //Sidewalls
                 cube([35,6,60]);
              translate([0,40+7.5,0])
@@ -93,10 +96,11 @@ module mounting_plate(){
                 cube([23,12,20]);
             translate([0,-12,10.65])
                 cube([23,12,20]);
-            translate([10,10,59])
-                cylinder(h=11, r=5);
+            
+            translate([10,10,59]) //Axle Top
+                cylinder(h=8, r=4);
         }
-       union(){
+       union(){ ///////////Cutting///////////
           translate([15, -7.25/2, 9.9]) // Screwholes Mouting Plate
                 cylinder(h=6, r=3/2);
           translate([5, -7.25/2, 9.9])
@@ -104,21 +108,70 @@ module mounting_plate(){
            translate([20,40,0]){
                rotate([0,0,180]){
                     translate([15, -7.25/2, 9.9])
-                    cylinder(h=6, r=3/2);
-              translate([5, -7.25/2, 9.9])
-                    cylinder(h=6, r=3/2);
+                        cylinder(h=6, r=3/2);
+                    translate([5, -7.25/2, 9.9])
+                        cylinder(h=6, r=3/2);
                }
            }
+        translate([19,-5,40])//Cable channel
+                cube([7,9,6]);
         }
     }
 }
-mounting_plate();
-//servo();
-//drive_shaft_attachment();
 
+
+////////////////////////////////Housing # Main Structure//////////////////////////////
+module housing(){
+    difference(){
+        union(){
+            translate([-10,0,-6])//Bottomplate
+                cube([80,60,6]);
+            translate([-10,0,68.4])//Topplate
+                cube([80,60,6]);
+
+            translate([35,0,-0.01]) //Frontplate Fix Mallet
+                cube([35,6,70]);
+            translate([-10,30,-0.01]) //Sideplate Servo
+                cube([6,30,70]);
+            translate([70-6,20,0]) //Sideplate Fix Mallet
+                cube([6,30,70]);
+        }
+        union(){
+         translate([10,10+13.3,68.4+3.49]){
+                    cylinder(h=7, r=8, center=true);
+                     translate([0, 0, -3.5])
+                    cylinder(h=2, r=9, center=true);
+         }
+         translate([35, +5.99, 0]){
+            rotate([90,0,0]){
+                translate([0,-1, 60])
+                cylinder(h=9, r=3/2);
+//                translate([0,0, 0])
+//                cylinder(h=6, r=3/2);
+//                translate([0,0, 0])
+//                cylinder(h=6, r=3/2);
+//                translate([0,0, 0])
+//                cylinder(h=6, r=3/2);
+//                translate([0,0, 0])
+//                cylinder(h=6, r=3/2);
+              
+            }
+        }
+    }
+         
+    
+}
+     
+ 
+
+}
 //Complete:
+housing();
+translate([0,13.3,8]){
+mounting_plate();
+
 servo();
  translate([10,10,-8])
     drive_shaft_attachment();
-
+}
 
