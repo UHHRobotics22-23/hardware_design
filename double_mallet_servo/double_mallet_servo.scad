@@ -69,6 +69,10 @@ module drive_shaft_attachment(){
                  cylinder(h=30, r=3/2);
               translate([32,19,-00.1])//Screwhole
                  cylinder(h=30, r=3/2);
+              translate([19,32,-00.1])//Screwhole
+                 cylinder(h=30, r=3/2);
+              translate([19,6,-00.1])//Screwhole
+                 cylinder(h=30, r=3/2);
              }
         }
     }
@@ -77,8 +81,10 @@ module drive_shaft_attachment(){
 
 ////////////////////////////////Servo Moveable Mallet//////////////////////////////
 module mounting_plate(){
+     color([0,1,0])
     difference(){
         union(){
+                
           
                
             translate([0,-13.3,0]) //Sidewalls
@@ -99,6 +105,10 @@ module mounting_plate(){
             
             translate([10,10,59]) //Axle Top
                 cylinder(h=8, r=4);
+                
+            translate([35,-8.3,0]) // Claw for Mounting Plate
+            rotate([0,0,180])
+            claw();
         }
        union(){ ///////////Cutting///////////
           translate([15, -7.25/2, 9.9]) // Screwholes Mouting Plate
@@ -115,7 +125,28 @@ module mounting_plate(){
            }
         translate([19,-5,40])//Cable channel
                 cube([7,9,6]);
-        }
+           
+//        translate([0, -9.3, 0]){ // Screwholes for Mounting Plate
+//            rotate([90,0,0]){
+//                translate([30,5,0])
+//                cylinder(h=5, r=3/2);
+//                translate([5,5, 0])
+//                cylinder(h=5, r=3/2);
+//                translate([30,55, 0])
+//                cylinder(h=5, r=3/2);
+//                translate([5,55, 0])
+//                cylinder(h=5, r=3/2);
+//                translate([30,30, 0])
+//                cylinder(h=5, r=3/2);
+//                translate([5,30, 0])
+//                cylinder(h=5, r=3/2);
+//              
+//            }
+//        }
+        
+    
+           
+       }
     }
 }
 
@@ -124,40 +155,57 @@ module mounting_plate(){
 module housing(){
     difference(){
         union(){
+            
+            
             translate([-10,0,-6])//Bottomplate
                 cube([80,60,6]);
-            translate([-10,0,68.4])//Topplate
-                cube([80,60,6]);
-
-            translate([35,0,-0.01]) //Frontplate Fix Mallet
-                cube([35,6,70]);
-            translate([-10,30,-0.01]) //Sideplate Servo
-                cube([6,30,70]);
-            translate([70-6,20,0]) //Sideplate Fix Mallet
-                cube([6,30,70]);
+            translate([35,0,-1]) //Frontplate Fix Mallet
+                cube([35,6,68.4+1]);
+       
+            translate([70-6,20,-1]) //Sideplate Fix Mallet
+                cube([6,30,68.4+1]);
+            translate([70,5,8])
+            rotate([0,0,180])
+            claw();
         }
         union(){
-         translate([10,10+13.3,68.4+3.49]){
-                    cylinder(h=7, r=8, center=true);
-                     translate([0, 0, -3.5])
-                    cylinder(h=2, r=9, center=true);
-         }
-         translate([35, +5.99, 0]){
-            rotate([90,0,0]){
-                translate([0,-1, 60])
-                cylinder(h=9, r=3/2);
-//                translate([0,0, 0])
+    
+//         translate([35, +4, 8]){ // Screwholes for Mounting Plate
+//            rotate([90,0,0]){
+//                translate([30,5,0])
 //                cylinder(h=6, r=3/2);
-//                translate([0,0, 0])
+//                translate([5,5, 0])
 //                cylinder(h=6, r=3/2);
-//                translate([0,0, 0])
+//                translate([30,55, 0])
 //                cylinder(h=6, r=3/2);
-//                translate([0,0, 0])
+//                translate([5,55, 0])
 //                cylinder(h=6, r=3/2);
-              
-            }
-        }
+//                translate([30,30, 0])
+//                cylinder(h=6, r=3/2);
+//                translate([5,30, 0])
+//                cylinder(h=6, r=3/2);
+//              
+//            }
+//        }
+      
+         translate([-9,4.3,0]){
+            
+        translate([6,19,-4]) //Screwhole
+                 cylinder(h=30, r=3/2);
+        translate([32,19,-4])//Screwhole
+                 cylinder(h=30, r=3/2);
+        translate([19,32,-4])//Screwhole
+                 cylinder(h=30, r=3/2);
+        translate([19,6,-4])//Screwhole
+                 cylinder(h=30, r=3/2);
     }
+     translate([-10,0,0-6.1]){ //Screwholes Sideplate Servo
+             translate([3,35,0])
+                cylinder(h=13, r=3/2);
+             translate([3,55,0])
+               cylinder(h=13, r=3/2);}
+
+}
          
     
 }
@@ -165,13 +213,82 @@ module housing(){
  
 
 }
+module top_plate_housing(){
+    difference(){
+        union(){
+      translate([-10,0,68.4])//Topplate
+                cube([80,60,6]);
+      translate([-10,30,0]) //Sideplate Servo
+                cube([6,30,68.4+1]);
+            
+        }
+        union(){
+            translate([10,10+13.3,68.4+3.49]){ // Bearing hole
+                    cylinder(h=7, r=8, center=true);
+                     translate([0, 0, -3.5])
+                    cylinder(h=2, r=9, center=true);
+         }
+            
+        
+          translate([-10,0,68.4-6]){ //Screwholes Frontplate Fix Mallet
+             translate([80-10,3,0])
+                cylinder(h=13, r=3/2);
+             translate([80-25,3,0])
+               cylinder(h=13, r=3/2);
+        }
+         translate([-10,0,68.4-6]){ //Screwholes Sideplate Fix Mallet
+             translate([77,25,0])
+                cylinder(h=13, r=3/2);
+             translate([77,45,0])
+               cylinder(h=13, r=3/2);
+             
+        }
+          translate([-10,0,0-6]){ //Screwholes Sideplate Servo
+             translate([3,35,0])
+                cylinder(h=13, r=3/2);
+             translate([3,55,0])
+               cylinder(h=13, r=3/2);
+             
+        }
+    }
+    
+    
+}
+}
+
+module claw(){
+   difference(){
+   union(){
+  cube([35,5,60]);
+    
+  translate ([0,5-1,0]) // Bridge Bottom
+  cube([35,10+1,5-0.15]);
+  translate ([0,11.2,0]) // Claw Bottom
+  cube([35,5,10]);
+    
+  translate ([0,5-1,55+0.15])  // Bridge Top
+  cube([35,10+1,5-0.15]);
+  translate ([0,11.2,50])// Claw Top
+  cube([35,5,10]);
+   }
+   translate([35/2,8,-0.1])
+    cylinder(h=70, r=3/2);
+   
+}
+}
+
 //Complete:
-housing();
-translate([0,13.3,8]){
+//claw();
+//mounting_plate();
+
+//housing();
+//top_plate_housing();
+    
+//translate([0,13.3,8]){
 mounting_plate();
 
-servo();
- translate([10,10,-8])
-    drive_shaft_attachment();
-}
+//servo();
+// translate([10,10,-8])
+ //   drive_shaft_attachment();
+//}
 
