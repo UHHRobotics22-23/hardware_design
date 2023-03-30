@@ -1,16 +1,18 @@
 $fa = 1;
 $fs = 0.4;
 
-mallet_length = 393;
-mallet_sphere_radius = 39.6/2;
+mallet_length = 365; // Hard Mallet
+mallet_sphere_radius = 36.75/2;
+mallet_sphere_height_h = 32/2;
 axel_radius = 5;
 side_wall_thickness = 5;
 mallet_handle_radius=9.6/2;
 side_wall_center_distance = mallet_handle_radius*2+1.5+side_wall_thickness/2;
 
 module mallet() {
-    cylinder(h=mallet_length+mallet_sphere_radius, r=mallet_handle_radius);
-    translate([0, 0, mallet_length+mallet_sphere_radius])
+    cylinder(h=mallet_length+mallet_sphere_height_h, r=mallet_handle_radius);
+    translate([0, 0, mallet_length+mallet_sphere_height_h])
+        scale([1, 1, mallet_sphere_height_h / mallet_sphere_radius])
         sphere(r=mallet_sphere_radius, center=true);
 }
 
@@ -135,6 +137,10 @@ module side_slope(slope_height, slope_width) {
     // side_wall_left();
     // side_wall_right();
 //side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
-mallet_car_mod();
+translate([0, 0, 40+mallet_handle_radius*3]) {
+    mallet_car_mod();
+    translate([0, 0, -30])
+        mallet();
+}
  //side_wall_left();
  //side_wall_right();

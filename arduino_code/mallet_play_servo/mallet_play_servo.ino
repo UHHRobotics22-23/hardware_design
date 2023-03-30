@@ -1,18 +1,21 @@
 #include <Servo.h>
 
+// Servo Safety Checks
+// Calibration Offset
+
 int DELAY_MS = 15;
-int STEP_INCREASE = 1;
+int STEP_INCREASE = 5;
 
 String input;
 Servo malletServo;
 int stored[] = {
-  75, 40, 30
+  120, 85, 55
 };
 
 int storedLen = 3;
 
-int targetPos = 90;
-int pos = 90;
+int targetPos = 120;
+int pos = 120;
 
 void setup() {
   Serial.begin(9600);
@@ -45,7 +48,7 @@ void loop() {
       } else if(servoInput > storedLen) {
         Serial.println("Input pos bigger than saved pos number");
       } else {
-        targetPos = stored[servoInput];
+        targetPos = stored[servoInput-1];
       }
     } else {
       Serial.println("Unknown command");
