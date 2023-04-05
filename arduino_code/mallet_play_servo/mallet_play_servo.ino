@@ -1,10 +1,12 @@
 #include <Servo.h>
 
-// Servo Safety Checks
 // Calibration Offset
 
 int DELAY_MS = 15;
 int STEP_INCREASE = 5;
+// int CALIBRATION_ZERO_POINT = 120;
+int MAX_VALUE = 120;
+int MIN_VALUE = 55;
 
 String input;
 Servo malletServo;
@@ -37,7 +39,11 @@ void loop() {
       if(servoInput <= 0) {
         Serial.println("Could not parse number or input was 0 or lower");
       } else {
-        targetPos = (int) servoInput;
+        if(((int) servoInput) < MIN_VALUE || ((int) servoInput) > MAX_VALUE) {
+          Serial.println("Value outside of safety bounds");
+        } else {
+          targetPos = (int) servoInput;
+        }
       }
     }
 
@@ -48,7 +54,12 @@ void loop() {
       } else if(servoInput > storedLen) {
         Serial.println("Input pos bigger than saved pos number");
       } else {
-        targetPos = stored[servoInput-1];
+        int targetPosPre = stored[servoInput-1];
+        if(targetPosPre < MIN_VALUE || targetPosPre > MAX_VALUE) {
+          Serial.println("Interal value outside of safety bounds");
+        } else {
+          targetPos = targetPosPre;
+        }
       }
     } else {
       Serial.println("Unknown command");
