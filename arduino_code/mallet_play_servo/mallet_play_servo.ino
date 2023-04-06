@@ -57,7 +57,7 @@ void loop() {
       } else if(servoInput > storedLen) {
         Serial.println("Input pos bigger than saved pos number");
       } else {
-        int targetPosPre = stored[servoInput-1];
+        int targetPosPre = stored[servoInput];
         if(targetPosPre < MIN_VALUE || targetPosPre > MAX_VALUE) {
           Serial.println("Interal value outside of safety bounds");
         } else {
