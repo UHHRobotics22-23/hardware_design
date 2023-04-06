@@ -9,6 +9,7 @@ int MAX_VALUE = 120;
 int MIN_VALUE = 55;
 
 String input;
+String input_number;
 Servo malletServo;
 int stored[] = {
   120, 85, 55
@@ -35,9 +36,10 @@ void loop() {
 
     input = Serial.readStringUntil('\n');
     if(input.startsWith("servoPos ")) {
-      long servoInput = input.substring(9).toInt();
-      if(servoInput <= 0) {
-        Serial.println("Could not parse number or input was 0 or lower");
+      input_number = input.substring(9);
+      long servoInput = input_number.toInt();
+      if(!check_input_number_string() || servoInput < 0) {
+        Serial.println("Could not parse number or input was less than 0");
       } else {
         if(((int) servoInput) < MIN_VALUE || ((int) servoInput) > MAX_VALUE) {
           Serial.println("Value outside of safety bounds");
@@ -48,9 +50,10 @@ void loop() {
     }
 
     else if(input.startsWith("malletPos ")) {
-      long servoInput = input.substring(10).toInt();
-      if(servoInput <= 0) {
-        Serial.println("Could not parse number or input was 0 or lower");
+      input_number = input.substring(10);
+      long servoInput = input_number.toInt();
+      if(!check_input_number_string() || servoInput < 0) {
+        Serial.println("Could not parse number or input was less than 0");
       } else if(servoInput > storedLen) {
         Serial.println("Input pos bigger than saved pos number");
       } else {
@@ -75,4 +78,15 @@ void loop() {
   malletServo.write(pos);
   
   delay(15);
+}
+
+bool check_input_number_string() {
+  for(int i = 0; i < input_number.length(); i++) {
+    char c = input_number.charAt(i);
+    if(c < '0' || c > '9') {
+      return false;
+    }
+  }
+
+  return true;
 }
