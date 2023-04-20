@@ -27,14 +27,18 @@ void setup() {
 }
 
 void loop() {
-  if(pos == targetPos) {
-    Serial.println("Awaiting new command");
+  if(pos == targetPos || Serial.available() > 0) {
+    // Serial.println("Awaiting new command");
 
     while(Serial.available() == 0) {
       delay(10);      
     }
 
     input = Serial.readStringUntil('\n');
+    input.trim();
+    Serial.print("\"");
+    Serial.print(input);
+    Serial.println("\"");
     if(input.startsWith("servoPos ")) {
       input_number = input.substring(9);
       long servoInput = input_number.toInt();
@@ -45,6 +49,7 @@ void loop() {
           Serial.println("Value outside of safety bounds");
         } else {
           targetPos = (int) servoInput;
+          Serial.println("ok");
         }
       }
     }
@@ -62,6 +67,7 @@ void loop() {
           Serial.println("Interal value outside of safety bounds");
         } else {
           targetPos = targetPosPre;
+          Serial.println("ok");
         }
       }
     } else {
