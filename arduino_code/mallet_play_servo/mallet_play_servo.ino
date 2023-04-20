@@ -2,26 +2,20 @@
 
 // Calibration Offset
 
-int DELAY_MS = 15;
-int STEP_INCREASE = 5;
-// int CALIBRATION_ZERO_POINT = 120;
+int DELAY_MS = 5;
+int STEP_INCREASE = 1;
 int MAX_VALUE = 120;
 int MIN_VALUE = 55;
 
 String input;
 String input_number;
 Servo malletServo;
-int stored[] = {
-  120, 85, 55
-};
-
-int storedLen = 3;
 
 int targetPos = 120;
 int pos = 120;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   malletServo.attach(9);
   malletServo.write(pos);
 }
@@ -31,59 +25,48 @@ void loop() {
     // Serial.println("Awaiting new command");
 
     while(Serial.available() == 0) {
-      delay(10);      
+      delay(DELAY_MS);      
     }
 
     input = Serial.readStringUntil('\n');
     input.trim();
-    Serial.print("\"");
-    Serial.print(input);
-    Serial.println("\"");
-    if(input.startsWith("servoPos ")) {
-      input_number = input.substring(9);
+    if(input.startsWith("s ")) {
+      input_number = input.substring(2);
       long servoInput = input_number.toInt();
       if(!check_input_number_string() || servoInput < 0) {
-        Serial.println("Could not parse number or input was less than 0");
+        Serial.println("err_input_num");
       } else {
         if(((int) servoInput) < MIN_VALUE || ((int) servoInput) > MAX_VALUE) {
-          Serial.println("Value outside of safety bounds");
+          Serial.println("err_input_range");
         } else {
           targetPos = (int) servoInput;
           Serial.println("ok");
         }
       }
+    } 
+    
+    else if(input.startsWith("p")) {
+      Serial.print("p ");
+      Serial.println(pos);
     }
 
-    else if(input.startsWith("malletPos ")) {
-      input_number = input.substring(10);
-      long servoInput = input_number.toInt();
-      if(!check_input_number_string() || servoInput < 0) {
-        Serial.println("Could not parse number or input was less than 0");
-      } else if(servoInput > storedLen) {
-        Serial.println("Input pos bigger than saved pos number");
-      } else {
-        int targetPosPre = stored[servoInput];
-        if(targetPosPre < MIN_VALUE || targetPosPre > MAX_VALUE) {
-          Serial.println("Interal value outside of safety bounds");
-        } else {
-          targetPos = targetPosPre;
-          Serial.println("ok");
-        }
-      }
-    } else {
-      Serial.println("Unknown command");
+    else {
+      Serial.println("err_cmd");
     }
   }
 
-  if(pos < targetPos) {
-    pos += min(STEP_INCREASE, targetPos - pos);
-  } else if(pos > targetPos) {
-    pos -= min(STEP_INCREASE, pos - targetPos);
-  }
+  // Set to pos to targetPos immediately. Maybe readd lower code later for velocity constraining
+  pos = targetPos;
+
+  // if(pos < targetPos) {
+  //   pos += min(STEP_INCREASE, targetPos - pos);
+  // } else if(pos > targetPos) {
+  //   pos -= min(STEP_INCREASE, pos - targetPos);
+  // }
 
   malletServo.write(pos);
   
-  delay(15);
+  delay(DELAY_MS);
 }
 
 bool check_input_number_string() {
