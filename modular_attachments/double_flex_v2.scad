@@ -116,9 +116,9 @@ module rubber_attachment() {
 }
 
 module mallet_holder() {
-    translate([0, side_wall_center_distance, 0])
-        rotate([90, 0, 0])
-            side_wall_right();
+//    translate([0, side_wall_center_distance, 0])
+//        rotate([90, 0, 0])
+//            side_wall_right();
 
     translate([0, -side_wall_center_distance, 0])
         rotate([-90, 0, 0])
@@ -156,7 +156,7 @@ module screw_holes(depth, width, corners) {
 module attachment() {
     difference() {
         union() {
-            cube([35, 6, 50]);
+            cube([33.5, 6, 50]);
             translate([6.5, 6, 5+0.15])
                 cube([27, 6.01, 40-0.3]);
         }
