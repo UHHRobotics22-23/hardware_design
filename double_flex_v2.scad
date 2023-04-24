@@ -39,10 +39,10 @@ module side_wall_left() {
     side_wall();
     difference() {//Für die Schrauben
         union() {
-            translate([side_wall_length/2-5, +16, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
-                cube([10,10,wall_to_wall_distance],center=true);//Stopper
-            translate([-16, -side_wall_length/2+5, wall_to_wall_distance/2])
-                cube([10,10,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
+            translate([side_wall_length/2-7.5, +40-2.5, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
+                cube([15,15,wall_to_wall_distance],center=true);//Stopper
+            translate([40-2.5, -side_wall_length/2+5+2.5, wall_to_wall_distance/2])
+                cube([15,15,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
             translate([-side_wall_length/2, -side_wall_length/2, 0])//Wall on Y Axes
                 union() {
                     cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
@@ -52,15 +52,15 @@ module side_wall_left() {
                 };
             translate([-side_wall_length/2, side_wall_length/2, 0])//Wall on X Axes
                 union() {
-                rotate([0, 0, -90])
-                    cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
-                translate([side_wall_length-10, -side_wall_thickness-2, wall_to_wall_distance/2+side_wall_thickness/4])
-                        rotate([180, 0, -90])
+                //rotate([0, 0, -90])
+                    //cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
+                translate([7, -side_wall_thickness-2, wall_to_wall_distance/2+side_wall_thickness/4])
+                        rotate([180,0, 0])
                         rubber_hook();
          
                 };  
-         translate([-side_wall_length/2+7, (side_wall_length/2)-7, wall_to_wall_distance/2])//Wall on X Axes
-         rubber_attachment();   
+//         translate([-side_wall_length/2+7, (side_wall_length/2)-7, wall_to_wall_distance/2])//Wall on X Axes
+//         rubber_attachment();   
      
         }
         translate([0, 0, wall_to_wall_distance])
@@ -124,10 +124,13 @@ module mallet_holder() {
         rotate([-90, 0, 0])
         side_wall_left();
 
-    rotate([0, 45, 0]){
+    rotate([0, 90, 0]){
         mallet_car();
         mallet();
     }
+    translate([-56.8, +35/2, -25])
+        rotate([0, 0, -90])
+            attachment();
 }
 
 module screw_holes(depth, width, corners) {
@@ -137,14 +140,32 @@ module screw_holes(depth, width, corners) {
             cylinder(h=depth, r=width/2);
         translate([-posVal, posVal, 0])
             cylinder(h=depth, r=width/2);
-        translate([posVal, posVal, 0])
+        translate([posVal-5, posVal-5, 0])
+            cylinder(h=depth, r=width/2);
+        translate([posVal-5, -posVal+5, 0])
             cylinder(h=depth, r=width/2);
         
-        translate([-16, -side_wall_length/2+5, 0])
-            cylinder(h=depth, r=width/2);
+//        translate([side_wall_length/2-7.5, +40-2.5, wall_to_wall_distance/2])
+//            cylinder(h=depth, r=width/2);
         
-        translate([side_wall_length/2-5, +16, 0])
-            cylinder(h=depth, r=width/2);
+//        translate([40-2.5, -side_wall_length/2+5+2.5, wall_to_wall_distance/2])
+//            cylinder(h=depth, r=width/2);
+    }
+}
+
+module attachment() {
+    difference() {
+        union() {
+            cube([35, 6, 50]);
+            translate([6.5, 6, 5+0.15])
+                cube([27, 6.01, 40-0.3]);
+        }
+        union() {
+            translate([35/2, 6/2, 3.5-0.001])
+                cylinder(h=7, r=3/2, center=true);
+            translate([35/2, 6/2, 46.5+0.001])
+                cylinder(h=7, r=3/2, center=true);
+        }
     }
 }
 

@@ -126,11 +126,11 @@ module screw_holes(depth, width, corners) {
     }
 }
 
-//mallet_holder();
+mallet_holder();
 // translate([100, 100, 0])
  //    side_wall_left();
  //    side_wall_right();
 //translate([0, 100, 0])
- mallet_car();
+// mallet_car();
 // side_wall_left();
  //side_wall_right();
