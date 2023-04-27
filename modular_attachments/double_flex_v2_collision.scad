@@ -17,10 +17,10 @@ module mallet() {
 module side_wall() {
     difference() {
         cube([side_wall_length, side_wall_length, side_wall_thickness], center=true);
-        translate([0, 0, 0])
-            cylinder(h=side_wall_thickness+1, r=8, center=true);
-             translate([0, 0, side_wall_thickness-1])
-            cylinder(h=side_wall_thickness, r=9, center=true);
+//        translate([0, 0, 0])
+//            cylinder(h=side_wall_thickness+1, r=8, center=true);
+//             translate([0, 0, side_wall_thickness-1])
+//            cylinder(h=side_wall_thickness, r=9, center=true);
     }
 
 }
@@ -37,35 +37,35 @@ module side_wall_right() {
 module side_wall_left() {
     wall_to_wall_distance = side_wall_center_distance*2-side_wall_thickness/2;
     side_wall();
-    difference() {//Für die Schrauben
-        union() {
-            translate([side_wall_length/2-7.5, +40-2.5, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
-                cube([15,15,wall_to_wall_distance],center=true);//Stopper
-            translate([40-2.5, -side_wall_length/2+5+2.5, wall_to_wall_distance/2])
-                cube([15,15,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
-            translate([-side_wall_length/2, -side_wall_length/2, 0])//Wall on Y Axes
-                union() {
-                    cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
-                    translate([side_wall_thickness+2, 10, wall_to_wall_distance/2+side_wall_thickness/4])
-                        rubber_hook();
-                 
-                };
-            translate([-side_wall_length/2, side_wall_length/2, 0])//Wall on X Axes
-                union() {
-                //rotate([0, 0, -90])
-                    //cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
-                translate([7, -side_wall_thickness-2, wall_to_wall_distance/2+side_wall_thickness/4])
-                        rotate([180,0, 0])
-                        rubber_hook();
-         
-                };  
+//    difference() {//Für die Schrauben
+//        union() {
+            translate([side_wall_length/2-7.5, +40-2.5, wall_to_wall_distance/2]);//Struktur Element fo stabilty Y Axes
+//                cube([15,15,wall_to_wall_distance],center=true);//Stopper
+//            translate([40-2.5, -side_wall_length/2+5+2.5, wall_to_wall_distance/2])
+//                cube([15,15,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
+//            translate([-side_wall_length/2, -side_wall_length/2, 0])//Wall on Y Axes
+//                union() {
+//                    cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
+//                    translate([side_wall_thickness+2, 10, wall_to_wall_distance/2+side_wall_thickness/4])
+//                        rubber_hook();
+//                 
+//                };
+//            translate([-side_wall_length/2, side_wall_length/2, 0])//Wall on X Axes
+//                union() {
+//                //rotate([0, 0, -90])
+//                    //cube([side_wall_thickness, side_wall_length, wall_to_wall_distance]);
+//                translate([7, -side_wall_thickness-2, wall_to_wall_distance/2+side_wall_thickness/4])
+//                        rotate([180,0, 0])
+//                        rubber_hook();
+//         
+//                };  
 //         translate([-side_wall_length/2+7, (side_wall_length/2)-7, wall_to_wall_distance/2])//Wall on X Axes
 //         rubber_attachment();   
      
-        }
-        translate([0, 0, wall_to_wall_distance])
-            screw_holes(6, 3, side_wall_length/2);  // 6mm deep 3mm width holes
-    }
+//        }
+//        translate([0, 0, wall_to_wall_distance])
+//            screw_holes(6, 3, side_wall_length/2);  // 6mm deep 3mm width holes
+//    }
 }
 module rubber_hook(){
     union(){
@@ -125,7 +125,7 @@ module mallet_holder() {
         side_wall_left();
 
     rotate([0, 65, 0]){
-        mallet_car();
+//        mallet_car();
         mallet();
     }
     translate([-56.8, +35/2, -25])
