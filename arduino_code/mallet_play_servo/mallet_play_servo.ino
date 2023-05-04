@@ -6,6 +6,7 @@ int DELAY_MS = 5;
 int STEP_INCREASE = 1;
 int MAX_VALUE = 120;
 int MIN_VALUE = 55;
+int RESOLUTION = 255;
 
 String input;
 String input_number;
@@ -16,7 +17,7 @@ int pos = 120;
 
 void setup() {
   Serial.begin(115200);
-  malletServo.attach(9);
+  malletServo.attach(2);
   malletServo.write(pos);
 }
 
@@ -43,11 +44,20 @@ void loop() {
           Serial.println("ok");
         }
       }
-    } 
+    }
     
     else if(input.startsWith("p")) {
       Serial.print("p ");
       Serial.println(pos);
+    }
+
+    else if(input.startsWith("l")) {
+      Serial.print("l ");
+      Serial.print(MIN_VALUE);
+      Serial.print(" ");
+      Serial.print(MAX_VALUE);
+      Serial.print(" ");
+      Serial.println(RESOLUTION);
     }
 
     else {
