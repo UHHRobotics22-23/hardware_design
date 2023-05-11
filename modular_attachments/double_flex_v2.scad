@@ -1,7 +1,10 @@
 $fa = 1;
 $fs = 0.4;
+//Maße des Objekts:
+//x:45mm y:??mm z:45mm
+// Mallet goes 65 mm into Car
 side_wall_length = 90;
-mallet_length = 393;
+mallet_length = 365;
 mallet_sphere_radius = 39.6/2;
 axel_radius = 4;
 side_wall_thickness = 5;
@@ -9,7 +12,7 @@ mallet_handle_radius=9.6/2;
 side_wall_center_distance = mallet_handle_radius*2+1.5+side_wall_thickness/2;
 
 module mallet() {
-    cylinder(h=mallet_length+mallet_sphere_radius, r=mallet_handle_radius);
+    cylinder(h=mallet_length, r=mallet_handle_radius);
     translate([0, 0, mallet_length+mallet_sphere_radius])
         sphere(r=mallet_sphere_radius, center=true);
 }
@@ -41,6 +44,7 @@ module side_wall_left() {
         union() {
             translate([side_wall_length/2-7.5, +40-2.5, wall_to_wall_distance/2])//Struktur Element fo stabilty Y Axes
                 cube([15,15,wall_to_wall_distance],center=true);//Stopper
+            echo("Die Breite der Wand",wall_to_wall_distance);
             translate([40-2.5, -side_wall_length/2+5+2.5, wall_to_wall_distance/2])
                 cube([15,15,wall_to_wall_distance],center=true);//Struktur Element fo stabilty X Axes
             translate([-side_wall_length/2, -side_wall_length/2, 0])//Wall on Y Axes
@@ -124,8 +128,9 @@ module mallet_holder() {
         rotate([-90, 0, 0])
         side_wall_left();
 
-    rotate([0, 65, 0]){
+    rotate([0, 90, 0]){
         mallet_car();
+        translate([0,0,-30])
         mallet();
     }
     translate([-56.8, +35/2, -25])
@@ -175,6 +180,6 @@ mallet_holder();
      
  //    side_wall_right();
 //translate([0, 100, 0])
- //mallet_car();
-// side_wall_left();
- //side_wall_right();
+// mallet_car();
+ //side_wall_left();
+// side_wall_right();
