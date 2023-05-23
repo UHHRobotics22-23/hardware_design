@@ -68,18 +68,18 @@ void loop() {
           Serial.println("err_input_range");
         } else {
           targetPos = (int) servoInput;
-          Serial.println("ok");
+          Serial.println(servoInput);
         }
       }
 
     }
     
-    else if(input.startsWith("p")) {
+    else if (packetBuffer[0]=='p') {
       Serial.print("p ");
       Serial.println(pos);
     }
 
-    else if(input.startsWith("l")) {
+    else if(packetBuffer[0]=='l') {
       Serial.print("l ");
       Serial.print(MIN_VALUE);
       Serial.print(" ");
