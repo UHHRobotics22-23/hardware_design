@@ -4,7 +4,7 @@ $fs = 0.4;
 //x:45mm y:??mm z:45mm
 // Mallet goes 65 mm into Car
 side_wall_length = 90;
-mallet_length = 365;
+mallet_length = 375;
 mallet_sphere_radius = 39.6/2;
 axel_radius = 4;
 side_wall_thickness = 5;
@@ -13,7 +13,7 @@ side_wall_center_distance = mallet_handle_radius*2+1.5+side_wall_thickness/2;
 
 module mallet() {
     cylinder(h=mallet_length, r=mallet_handle_radius);
-    translate([0, 0, mallet_length+mallet_sphere_radius])
+    translate([0, 0, 365+mallet_sphere_radius])
         sphere(r=mallet_sphere_radius, center=true);
 }
 

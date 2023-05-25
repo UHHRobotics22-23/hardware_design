@@ -104,7 +104,7 @@ module mounting_plate(){
                 cube([23,12,20]);
             
             translate([10,10,59]) //Axle Top
-                cylinder(h=8, r=4);
+                cylinder(h=7, r=4);
                 
             translate([35,-8.3,0]) // Claw for Mounting Plate
             rotate([0,0,180])
@@ -156,19 +156,18 @@ module housing(){
     difference(){
         union(){
             
-            
-            translate([-10,0,-6])//Bottomplate
-                cube([80,60,6]);
+            translate([-7,0,-6])//Bottomplate
+                cube([77,110,6]);
             translate([35,0,-1]) //Frontplate Fix Mallet
                 cube([35,6,68.4+1]);
        
             translate([70-6,20,-1]) //Sideplate Fix Mallet
-                cube([6,30,68.4+1]);
+                cube([6,60,68.4+1]);
             translate([70,5,8])
             rotate([0,0,180])
             claw();
         }
-        union(){
+      
     
 //         translate([35, +4, 8]){ // Screwholes for Mounting Plate
 //            rotate([90,0,0]){
@@ -187,8 +186,12 @@ module housing(){
 //              
 //            }
 //        }
-      
-         translate([-9,4.3,0]){
+      screwholes();
+        
+}
+}
+module screwholes(){
+     translate([-9,4.3,0]){
             
         translate([6,19,-4]) //Screwhole
                  cylinder(h=30, r=3/2);
@@ -198,28 +201,46 @@ module housing(){
                  cylinder(h=30, r=3/2);
         translate([19,6,-4])//Screwhole
                  cylinder(h=30, r=3/2);
-    }
-     translate([-10,0,0-6.1]){ //Screwholes Sideplate Servo
-             translate([3,35,0])
-                cylinder(h=13, r=3/2);
-             translate([3,55,0])
-               cylinder(h=13, r=3/2);}
-
-}
          
-    
-}
-     
- 
+        translate([40,80,-10])//Screwhole
+                 countersunk();
+        translate([40,80+22.86,-10])//Screwhole
+               
+                    countersunk();
+                
+                 
+    }
+     translate([-7,0,0-10]){ //Screwholes Sideplate Servo
+             translate([3,35,0])
+                countersunk();
+             translate([3,65,0])
+               countersunk();
+            translate([3,95,0])
+               countersunk();}
 
 }
+module countersunk(){
+    rotate([0,180,]){
+    translate([0,0,-6]){
+    translate([0,0,+1.67])
+        cylinder(20,6/2,6/2);
+    cylinder(  1.7,    3/2,    6/2, false);
+    translate([0,0,-19]) 
+        cylinder(20,3/2,3/2);
+    }
+    }
+    }
 module top_plate_housing(){
     difference(){
         union(){
-      translate([-10,0,68.4])//Topplate
-                cube([80,60,6]);
-      translate([-10,30,0]) //Sideplate Servo
-                cube([6,30,68.4+1]);
+      translate([-7,0,68.4]){//Topplate
+                cube([77,110,6]);
+          translate([0,5,0])
+          cube([77,5,9]);
+          
+      }
+      translate([-7,30,0]) //Sideplate Servo
+                cube([6,80,68.4+1]);
             
         }
         union(){
@@ -231,23 +252,30 @@ module top_plate_housing(){
             
         
           translate([-10,0,68.4-6]){ //Screwholes Frontplate Fix Mallet
-             translate([80-10,3,0])
-                cylinder(h=13, r=3/2);
-             translate([80-25,3,0])
-               cylinder(h=13, r=3/2);
+             translate([80-10,3,16])
+                rotate([0,180,0])
+                countersunk();
+             translate([80-25,3,16])
+               rotate([0,180,0])
+                countersunk();
         }
          translate([-10,0,68.4-6]){ //Screwholes Sideplate Fix Mallet
-             translate([77,25,0])
-                cylinder(h=13, r=3/2);
-             translate([77,45,0])
-               cylinder(h=13, r=3/2);
+             translate([77,35,16])
+                rotate([0,180,])
+                countersunk();
+             translate([77,65,16])
+               rotate([0,180,])
+                countersunk();
              
         }
-          translate([-10,0,0-6]){ //Screwholes Sideplate Servo
+          translate([-7,0,0-6]){ //Screwholes Sideplate Servo
              translate([3,35,0])
                 cylinder(h=13, r=3/2);
-             translate([3,55,0])
+             translate([3,65,0])
                cylinder(h=13, r=3/2);
+             translate([3,95,0])
+               cylinder(h=13, r=3/2);
+              
              
         }
     }
@@ -271,9 +299,15 @@ module claw(){
   translate ([0,11.2,50])// Claw Top
   cube([35,5,10]);
    }
-   translate([35/2,8,-0.1])
-    cylinder(h=70, r=3/2);
+   union(){
+   translate([35/2,8,64])
+    rotate([0,180,0])
+     countersunk();
+   translate([35/2,8,-4])
    
+     countersunk();
+   
+   }
 }
 }
 
@@ -281,14 +315,16 @@ module claw(){
 //claw();
 //mounting_plate();
 
-//housing();
-//top_plate_housing();
+housing();
+top_plate_housing();
+
+
     
-//translate([0,13.3,8]){
+translate([0,13.3,8]){
 mounting_plate();
 
 //servo();
 // translate([10,10,-8])
- //   drive_shaft_attachment();
-//}
+//    drive_shaft_attachment();
+}
 
