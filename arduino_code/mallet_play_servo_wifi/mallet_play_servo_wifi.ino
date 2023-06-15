@@ -2,6 +2,8 @@
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <Servo.h>
+#include <iostream>
+#include <string>
 // Calibration Offset
 
 int DELAY_MS = 5;
@@ -12,6 +14,11 @@ int RESOLUTION = 255;
 
 String input;
 String input_number;
+String l_send;
+String p_send;
+String s_send;
+String err_send;
+
 Servo malletServo;
 
 int targetPos = 120;
@@ -46,40 +53,79 @@ void loop() {
   int packetSize = udp.parsePacket();
 
   if(pos == targetPos || packetSize > 0) {
-    // Serial.println("Awaiting new command");
+    //Serial.println("Awaiting new command");
 
    
 
     int len = udp.read(packetBuffer, 255);
     if (len > 0) {
       packetBuffer[len] = 0;
-    if(packetBuffer[0]=='s'){
-      char* substring = packetBuffer + 2; // Zeiger auf den 3. Charakter erstellen
-      int angle = atoi(substring); // von Zeichenkette zu int umwandeln
-      //Serial.println(angle);
-      //myservo.write(angle);
-      input_number = substring;
-      long servoInput = angle;
+      if(packetBuffer[0]=='s'){
+        input_number = "";
+      if(packetBuffer[3]=='1'||packetBuffer[3]=='2'){
+        input_number.concat(packetBuffer[2]);
+        input_number.concat(packetBuffer[3]);
+        input_number.concat(packetBuffer[4]);
+
+      }
+      else{
+        input_number.concat(packetBuffer[2]);
+        input_number.concat(packetBuffer[3]);
+
+      }
+      
+      //char* substring = packetBuffer[2-4]; // Zeiger auf den 3. Charakter erstellen
+      //input_number = substring.substring(2);
+      //input_number = substring;
+      
+      Serial.println("Länge");
+      Serial.println(input_number.length());
+      long servoInput = input_number.toInt();
+      
+      Serial.println("Analyse");
+      Serial.println(packetBuffer);
+      Serial.println(input.substring(2));
+      Serial.println("Analyse input_number");
+      Serial.println(input_number);
+
+      
 
        if(!check_input_number_string() || servoInput < 0) {
         Serial.println("err_input_num");
+        udp_sender("err_input_num");
       } else {
         if(((int) servoInput) < MIN_VALUE || ((int) servoInput) > MAX_VALUE) {
           Serial.println("err_input_range");
+          udp_sender("err_input_range");
         } else {
-          targetPos = (int) servoInput;
-          Serial.println(servoInput);
+          targetPos = input_number.toInt();
+          udp_sender(input_number);
+          Serial.println("ok");
+          Serial.println(targetPos);
         }
       }
 
     }
-    
+    //The actual postion is send to ROS
     else if (packetBuffer[0]=='p') {
-      Serial.print("p ");
+      p_send ="p ";
+      p_send.concat(pos);
+      udp_sender(p_send);
+      Serial.print("The actual postion was asked:");
       Serial.println(pos);
     }
 
     else if(packetBuffer[0]=='l') {
+      l_send ="l ";
+      l_send.concat(MIN_VALUE);
+      l_send.concat(" ");
+      l_send.concat(MAX_VALUE);
+      l_send.concat(" ");
+      l_send.concat(RESOLUTION);
+      
+      
+      udp_sender(l_send);
+
       Serial.print("l ");
       Serial.print(MIN_VALUE);
       Serial.print(" ");
@@ -89,6 +135,8 @@ void loop() {
     }
 
     else {
+       err_send ="err_cmd";
+      udp_sender(err_send);
       Serial.println("err_cmd");
     }
     }
@@ -104,22 +152,41 @@ void loop() {
   // }
 
   malletServo.write(pos);
-  udp.beginPacket(udp.remoteIP(), udp.remotePort());
-  udp.write("ACK");
-  udp.endPacket();
+   
+
   
   delay(DELAY_MS);
 }
 
 bool check_input_number_string() {
   for(int i = 0; i < input_number.length(); i++) {
+    
     char c = input_number.charAt(i);
+    Serial.println(c);
     if(c < '0' || c > '9') {
       return false;
     }
   }
 
   return true;
+
+
 }
+char* convert_to_char(String str){
+  int length = str.length();
+  
+  // declaring character array (+1 for null terminator)
+  char* char_array = new char[length + 1];
+  // copying the contents of the
+  // string to char array
+  strcpy(char_array, str.c_str()); 
+  return char_array;
+}
+void udp_sender(String txt){
+  udp.beginPacket(udp.remoteIP(), udp.remotePort());
+  udp.write(convert_to_char(txt));
+  udp.endPacket();
+}
+
 
 

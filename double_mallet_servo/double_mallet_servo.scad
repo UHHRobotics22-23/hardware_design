@@ -317,7 +317,7 @@ module claw(){
 
 housing();
 top_plate_housing();
-
+^
 
     
 translate([0,13.3,8]){
