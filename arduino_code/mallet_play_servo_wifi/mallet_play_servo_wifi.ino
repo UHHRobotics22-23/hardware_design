@@ -62,17 +62,17 @@ void loop() {
       packetBuffer[len] = 0;
       if(packetBuffer[0]=='s'){
         input_number = "";
-      if(packetBuffer[3]=='1'||packetBuffer[3]=='2'){
+        if(packetBuffer[4] < '0' || packetBuffer[4] > '9') {
+          input_number.concat(packetBuffer[2]);
+          input_number.concat(packetBuffer[3]);
+        }
+   
+       else{
         input_number.concat(packetBuffer[2]);
         input_number.concat(packetBuffer[3]);
         input_number.concat(packetBuffer[4]);
 
-      }
-      else{
-        input_number.concat(packetBuffer[2]);
-        input_number.concat(packetBuffer[3]);
-
-      }
+       }
       
       //char* substring = packetBuffer[2-4]; // Zeiger auf den 3. Charakter erstellen
       //input_number = substring.substring(2);
@@ -187,6 +187,7 @@ void udp_sender(String txt){
   udp.write(convert_to_char(txt));
   udp.endPacket();
 }
+
 
 
 
