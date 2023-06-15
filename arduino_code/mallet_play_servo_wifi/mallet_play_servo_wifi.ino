@@ -59,37 +59,35 @@ void loop() {
 
     int len = udp.read(packetBuffer, 255);
     if (len > 0) {
-      packetBuffer[len] = 0;
+      //packetBuffer[len] = 0;
+      Serial.println("packetBuffer");
+      Serial.println(packetBuffer);
       if(packetBuffer[0]=='s'){
+        Serial.println(packetBuffer);
         input_number = "";
-        if(packetBuffer[4] < '0' || packetBuffer[4] > '9') {
+        if(packetBuffer[4] >= '0' || packetBuffer[4] <= '9') {  
+          
           input_number.concat(packetBuffer[2]);
           input_number.concat(packetBuffer[3]);
+          input_number.concat(packetBuffer[4]);
+
         }
    
        else{
         input_number.concat(packetBuffer[2]);
         input_number.concat(packetBuffer[3]);
-        input_number.concat(packetBuffer[4]);
 
        }
+
       
       //char* substring = packetBuffer[2-4]; // Zeiger auf den 3. Charakter erstellen
       //input_number = substring.substring(2);
       //input_number = substring;
       
-      Serial.println("Länge");
-      Serial.println(input_number.length());
+      
       long servoInput = input_number.toInt();
-      
-      Serial.println("Analyse");
-      Serial.println(packetBuffer);
-      Serial.println(input.substring(2));
-      Serial.println("Analyse input_number");
-      Serial.println(input_number);
-
-      
-
+      Serial.println("servoInput");
+      Serial.println(servoInput);
        if(!check_input_number_string() || servoInput < 0) {
         Serial.println("err_input_num");
         udp_sender("err_input_num");
@@ -99,7 +97,7 @@ void loop() {
           udp_sender("err_input_range");
         } else {
           targetPos = input_number.toInt();
-          udp_sender(input_number);
+          udp_sender("ok");
           Serial.println("ok");
           Serial.println(targetPos);
         }
@@ -110,9 +108,10 @@ void loop() {
     else if (packetBuffer[0]=='p') {
       p_send ="p ";
       p_send.concat(pos);
+      Serial.println(p_send);
       udp_sender(p_send);
-      Serial.print("The actual postion was asked:");
-      Serial.println(pos);
+      //Serial.print("The actual postion was asked:");
+      //Serial.println(p_send);
     }
 
     else if(packetBuffer[0]=='l') {
@@ -162,7 +161,7 @@ bool check_input_number_string() {
   for(int i = 0; i < input_number.length(); i++) {
     
     char c = input_number.charAt(i);
-    Serial.println(c);
+    //Serial.println(c);
     if(c < '0' || c > '9') {
       return false;
     }
@@ -185,6 +184,8 @@ char* convert_to_char(String str){
 void udp_sender(String txt){
   udp.beginPacket(udp.remoteIP(), udp.remotePort());
   udp.write(convert_to_char(txt));
+  //Serial.println("The Char send??");
+  //Serial.println(convert_to_char(txt));
   udp.endPacket();
 }
 
