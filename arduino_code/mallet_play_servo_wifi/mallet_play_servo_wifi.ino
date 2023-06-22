@@ -8,8 +8,8 @@
 
 int DELAY_MS = 5;
 int STEP_INCREASE = 1;
-int MAX_VALUE = 200;
-int MIN_VALUE = -10;
+int MAX_VALUE = 98;
+int MIN_VALUE = 10;
 int RESOLUTION = 255;
 
 String input;
@@ -21,8 +21,8 @@ String err_send;
 
 Servo malletServo;
 
-int targetPos = 120;
-int pos = 120;
+int targetPos = 10;
+int pos = 10;
 
 // WIFI Setup
 const char* ssid = "Marimbabot_Mallet";
@@ -60,23 +60,26 @@ void loop() {
     int len = udp.read(packetBuffer, 255);
     if (len > 0) {
       //packetBuffer[len] = 0;
-      Serial.println("packetBuffer");
-      Serial.println(packetBuffer);
+      Serial.println(packetBuffer[0]);
       if(packetBuffer[0]=='s'){
-        Serial.println(packetBuffer);
+        
+        
         input_number = "";
-        if(packetBuffer[4] >= '0' || packetBuffer[4] <= '9') {  
-          
+        if(packetBuffer[4] == '0' || packetBuffer[4] == '1' ||packetBuffer[4] == '2' ||packetBuffer[4] == '3' ||packetBuffer[4] == '4' ||packetBuffer[4] == '5' ||packetBuffer[4] == '6' ||packetBuffer[4] == '7' ||packetBuffer[4] == '8' ||packetBuffer[4] == '9') {  
           input_number.concat(packetBuffer[2]);
           input_number.concat(packetBuffer[3]);
           input_number.concat(packetBuffer[4]);
 
         }
    
-       else{
+       else if (packetBuffer[3] == '0' || packetBuffer[3] == '1' ||packetBuffer[3] == '2' ||packetBuffer[3] == '3' ||packetBuffer[3] == '4' ||packetBuffer[3] == '5' ||packetBuffer[3] == '6' ||packetBuffer[3] == '7' ||packetBuffer[3] == '8' ||packetBuffer[3] == '9') {  
         input_number.concat(packetBuffer[2]);
         input_number.concat(packetBuffer[3]);
+       
 
+       }
+       else{
+        input_number.concat(packetBuffer[2]);
        }
 
       
@@ -98,7 +101,6 @@ void loop() {
         } else {
           targetPos = input_number.toInt();
           udp_sender("ok");
-          Serial.println("ok");
           Serial.println(targetPos);
         }
       }
@@ -108,7 +110,7 @@ void loop() {
     else if (packetBuffer[0]=='p') {
       p_send ="p ";
       p_send.concat(pos);
-      Serial.println(p_send);
+      
       udp_sender(p_send);
       //Serial.print("The actual postion was asked:");
       //Serial.println(p_send);
@@ -122,7 +124,8 @@ void loop() {
       l_send.concat(" ");
       l_send.concat(RESOLUTION);
       
-      
+      udp_sender(l_send);
+      udp_sender(l_send);
       udp_sender(l_send);
 
       Serial.print("l ");
@@ -149,7 +152,7 @@ void loop() {
   // } else if(pos > targetPos) {
   //   pos -= min(STEP_INCREASE, pos - targetPos);
   // }
-
+  
   malletServo.write(pos);
    
 
@@ -161,7 +164,7 @@ bool check_input_number_string() {
   for(int i = 0; i < input_number.length(); i++) {
     
     char c = input_number.charAt(i);
-    //Serial.println(c);
+    
     if(c < '0' || c > '9') {
       return false;
     }
@@ -182,10 +185,10 @@ char* convert_to_char(String str){
   return char_array;
 }
 void udp_sender(String txt){
+  //Serial.print(txt);
   udp.beginPacket(udp.remoteIP(), udp.remotePort());
   udp.write(convert_to_char(txt));
-  //Serial.println("The Char send??");
-  //Serial.println(convert_to_char(txt));
+ 
   udp.endPacket();
 }
 
