@@ -250,9 +250,12 @@ module top_plate_housing(){
     difference(){
         union(){
       translate([-7,0,68.4]){//Topplate
-                cube([77,110,6]);
-          translate([0,5,0])
-          cube([77,5,9]);
+                cube([77,125,6]);
+          translate([0,0,0])
+          cube([40,15,20]);
+          translate([0,110,0])
+          cube([40,15,20]);
+          
           
       }
       translate([-7,30,0]) //Sideplate Servo
@@ -333,17 +336,22 @@ module palm() {
 //Complete:
 //claw();
 //mounting_plate();
-//palm();
-housing();
+
+//housing();
+difference(){
 top_plate_housing();
-^
+translate([133,127,217])
+rotate([270,0,180])
+palm();
+}
+
 
     
-translate([0,13.3,8]){
-mounting_plate();
+//translate([0,13.3,8]){
+//mounting_plate();
 
 //servo();
 // translate([10,10,-8])
 //    drive_shaft_attachment();
-}
+//}
 
