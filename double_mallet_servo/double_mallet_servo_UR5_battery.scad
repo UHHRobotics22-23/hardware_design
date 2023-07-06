@@ -375,20 +375,20 @@ module palm() {
 //mounting_plate();
 
 housing();
-difference(){
-top_plate_housing();
-translate([133,127,217])
-rotate([270,0,180])
-palm();
-}
+//difference(){
+//top_plate_housing();
+//translate([133,127,217])
+//rotate([270,0,180])
+//palm();
+//}
 
 
     
-translate([0,13.3,8]){
-mounting_plate();
+//translate([0,13.3,8]){
+//mounting_plate();
     
-    servo();
- translate([10,10,-8])
-    drive_shaft_attachment();
-}
+//    servo();
+// translate([10,10,-8])
+//    drive_shaft_attachment();
+//}
 

@@ -4,16 +4,16 @@
 
 int DELAY_MS = 5;
 int STEP_INCREASE = 1;
-int MAX_VALUE = 120;
-int MIN_VALUE = 55;
-int RESOLUTION = 255;
+int MAX_VALUE = 180;
+int MIN_VALUE = 0;
+int RESOLUTION = 180;
 
 String input;
 String input_number;
 Servo malletServo;
 
-int targetPos = 120;
-int pos = 120;
+int targetPos = 97;
+int pos = 97;
 
 void setup() {
   Serial.begin(115200);
