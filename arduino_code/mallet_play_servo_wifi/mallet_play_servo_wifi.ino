@@ -8,9 +8,9 @@
 
 int DELAY_MS = 5;
 int STEP_INCREASE = 1;
-int MAX_VALUE = 98;
-int MIN_VALUE = 10;
-int RESOLUTION = 255;
+int MAX_VALUE = 140;
+int MIN_VALUE = 70;
+int RESOLUTION = 180;
 
 String input;
 String input_number;
@@ -21,8 +21,8 @@ String err_send;
 
 Servo malletServo;
 
-int targetPos = 10;
-int pos = 10;
+int targetPos = 140;
+int pos = 140;
 
 // WIFI Setup
 const char* ssid = "Marimbabot_Mallet";
@@ -60,7 +60,7 @@ void loop() {
     int len = udp.read(packetBuffer, 255);
     if (len > 0) {
       //packetBuffer[len] = 0;
-      Serial.println(packetBuffer[0]);
+      //Serial.println(packetBuffer[0]);
       if(packetBuffer[0]=='s'){
         
         
@@ -69,7 +69,6 @@ void loop() {
           input_number.concat(packetBuffer[2]);
           input_number.concat(packetBuffer[3]);
           input_number.concat(packetBuffer[4]);
-
         }
    
        else if (packetBuffer[3] == '0' || packetBuffer[3] == '1' ||packetBuffer[3] == '2' ||packetBuffer[3] == '3' ||packetBuffer[3] == '4' ||packetBuffer[3] == '5' ||packetBuffer[3] == '6' ||packetBuffer[3] == '7' ||packetBuffer[3] == '8' ||packetBuffer[3] == '9') {  
@@ -89,8 +88,8 @@ void loop() {
       
       
       long servoInput = input_number.toInt();
-      Serial.println("servoInput");
-      Serial.println(servoInput);
+      //Serial.println("servoInput");
+      //Serial.println(servoInput);
        if(!check_input_number_string() || servoInput < 0) {
         Serial.println("err_input_num");
         udp_sender("err_input_num");
@@ -101,7 +100,7 @@ void loop() {
         } else {
           targetPos = input_number.toInt();
           udp_sender("ok");
-          Serial.println(targetPos);
+         // Serial.println(targetPos);
         }
       }
 

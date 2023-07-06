@@ -4,9 +4,11 @@
 
 int DELAY_MS = 5;
 int STEP_INCREASE = 1;
+
 int MAX_VALUE = 180;
 int MIN_VALUE = 0;
 int RESOLUTION = 180;
+
 
 String input;
 String input_number;
