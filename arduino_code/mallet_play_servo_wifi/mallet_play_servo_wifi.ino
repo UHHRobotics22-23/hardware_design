@@ -51,6 +51,7 @@ void loop() {
   int packetSize = udp.parsePacket();
   if(pos == targetPos || packetSize > 0) {
     int len = udp.read(packetBuffer, 255);
+
     if (len > 0) {
       if(packetBuffer[0]=='s') {
         input_number = "";
@@ -67,7 +68,7 @@ void loop() {
           input_number.concat(packetBuffer[2]);
         }
       long servoInput = input_number.toInt();
-      if(!check_input_number_string() || servoInput < 0) {
+      if(servoInput < 0) {
         Serial.println("err_input_num");
         udp_sender("err_input_num");
         }
@@ -100,14 +101,7 @@ void loop() {
         l_send.concat(RESOLUTION);
         
         udp_sender(l_send);
-        
-
-        Serial.print("l ");
-        Serial.print(MIN_VALUE);
-        Serial.print(" ");
-        Serial.print(MAX_VALUE);
-        Serial.print(" ");
-        Serial.println(RESOLUTION);
+     
       }
 
       else {
@@ -118,26 +112,15 @@ void loop() {
     }
   }
   // Set to pos to targetPos immediately. Maybe readd lower code later for velocity constraining
+  
   pos = targetPos;
-  malletServo.write(pos);
+  // Ok, hear me out. We need to double scale this because someone in the pico w servo library made a oopsi
+  malletServo.write((pos - 140) * 2 + 140);
 }
-bool check_input_number_string() {
-  for(int i = 0; i < input_number.length(); i++) {
-    char c = input_number.charAt(i);
-    if(c < '0' || c > '9') {
-      return false;
-    }
-  }
-  return true;
-}
-char* convert_to_char(String str){
-  int length = str.length();
-  char* char_array = new char[length + 1];
-  strcpy(char_array, str.c_str()); 
-  return char_array;
-}
-void udp_sender(String txt){
+
+void udp_sender(String sender_message){
+
   udp.beginPacket(udp.remoteIP(), udp.remotePort());
-  udp.write(convert_to_char(txt));
+  udp.write(sender_message.c_str());
   udp.endPacket();
 }

@@ -50,7 +50,7 @@ void loop() {
     
     else if(input.startsWith("p")) {
       Serial.print("p ");
-      Serial.println(pos);
+      Serial.println(pos); 
     }
 
     else if(input.startsWith("l")) {
