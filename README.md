@@ -24,6 +24,8 @@ v1 -> first rubber band one direction compliance
 v2 -> enhanced version of v1
 
 ## Firmware
+The firmware is implemented using the [Arduino](https://www.arduino.cc/) framework.
+A [Raspberry Pi Pico W](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) is used as the controller of the device.
 
 ### Protocol
 The protocol used for the communication between ROS and the microcontroller is based on simple string commands. For both the wifi and serial version the same protocol is used.
@@ -43,9 +45,26 @@ Lastly the "s" command allows the ROS side to give a integer valued command posi
 | <invalid_command> | err_cmd                                | Any command other than the listed ones          | Error code for and invalid / unknown command                                                             |
 
 ### Flavours
+Two firmwares were written as a part of the development process.
+First one using a usb serial connection and secondly one using a wifi network created by the microcontroller.
+
+Both firmwares feature the min and max value at the top of the file.
+These are the max and min angle the servo can safely be set to and depends on the real world alignment of the servo and the 3d print.
+The values for each device are found in a manual testing project by sending manual "s" commands.
+The resolution for both is set to 180 as the servo can cover 180°
+Alternatively the resolution could be increased by using direct the [pwm millisecond control mode](https://www.arduino.cc/reference/en/libraries/servo/writemicroseconds/).
+
 #### Wifi
+The wifi firmware is found in the [mallet_play_servo_wifi](arduino_code/mallet_play_servo_wifi/mallet_play_servo_wifi.ino) project.
+
+The SSID and the password of the generated network can be set at the top of the file and needs reflashing.
+Further the port of the UDP server can be adjusted inside of the setup function.
 
 #### Serial
+The serial firmware is found in the [mallet_play_servo](arduino_code/mallet_play_servo/mallet_play_servo.ino) project.
+
+In the serial firmware the update frequency can be adjusted by changing the delay at the end of the loop.
+The baud rate can be adjusted in the setup function. A high baud rate is needed to minimize the communication overhead.
 
 ## Electronics Design
 
