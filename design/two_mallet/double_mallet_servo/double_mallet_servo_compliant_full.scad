@@ -1,3 +1,7 @@
+/*
+ * Modified version of the double_mallet_servo with the flexible attachment included. For more documentation see the base files.
+ */
+
 $fa = 1;
 $fs = 0.4;
 

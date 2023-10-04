@@ -1,3 +1,6 @@
+/*
+ * Testing model based on the double_flex_v2 showing the max up position. Deprecated use double_flex_v2
+ */
 $fa = 1;
 $fs = 0.4;
 side_wall_length = 90;

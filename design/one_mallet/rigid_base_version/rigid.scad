@@ -1,3 +1,7 @@
+/*
+ * The Rigid holder for one mallet used before the two mallet assembly was available
+ * This file is a modification of a previous compliant holder and contains many leftover pieces from the conversion
+ */
 $fa = 1;
 $fs = 0.4;
 
@@ -9,6 +13,7 @@ side_wall_thickness = 5;
 mallet_handle_radius=9.6/2;
 side_wall_center_distance = mallet_handle_radius*2+1.5+side_wall_thickness/2;
 
+// Module for a standard mallet object
 module mallet() {
     cylinder(h=mallet_length+mallet_sphere_height_h, r=mallet_handle_radius);
     translate([0, 0, mallet_length+mallet_sphere_height_h])
@@ -16,6 +21,7 @@ module mallet() {
         sphere(r=mallet_sphere_radius, center=true);
 }
 
+// Not used
 module side_wall() {
     difference() {
         cube([100, 100, side_wall_thickness], center=true);
@@ -24,6 +30,7 @@ module side_wall() {
     }
 }
 
+// Not used
 module side_wall_right() {
     difference() {
         side_wall();
@@ -33,6 +40,7 @@ module side_wall_right() {
     }
 }
 
+// Not used
 module side_wall_left() {
     wall_to_wall_distance = side_wall_center_distance*2-side_wall_thickness/2;
     side_wall();
@@ -59,6 +67,7 @@ module side_wall_left() {
     }
 }
 
+// Module for the mallet car which is the holder of the mallet. Static in this case
 module mallet_car() {
     difference() {
         union() {
@@ -79,6 +88,7 @@ module mallet_car() {
     
 }
 
+// Main Module of the file adding grabbable pieces to the mallet_car
 module mallet_car_mod() {
     mallet_car();
     translate([0, 0, -mallet_handle_radius*2-70/2+0.001])
@@ -88,6 +98,7 @@ module mallet_car_mod() {
         side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
 }
 
+// Not used
 module rubber_attachment() {
     rotate_extrude(angle=360) {
         translate([4, 0, 0])
@@ -108,6 +119,7 @@ module mallet_holder() {
         mallet_car();
 }
 
+// Not used
 module screw_holes(depth, width, corners) {
     posVal = corners - side_wall_thickness / 2;
     translate([0, 0, -depth+0.001]) {
@@ -120,6 +132,7 @@ module screw_holes(depth, width, corners) {
     }
 }
 
+// Side slope holder fitting one closed finger
 module side_slope(slope_height, slope_width) {
     // I don't understand the 0.4, but it seems necessary
     translate([0, mallet_handle_radius*2+slope_width/2-0.001, -slope_height/2-70/2+mallet_handle_radius*2+0.4])
@@ -137,6 +150,8 @@ module side_slope(slope_height, slope_width) {
     // side_wall_left();
     // side_wall_right();
 //side_slope(mallet_handle_radius*4+10, mallet_handle_radius*4*1.6);
+
+// Current display version with the mallet
 translate([0, 0, 40+mallet_handle_radius*3]) {
     mallet_car_mod();
     translate([0, 0, -30])

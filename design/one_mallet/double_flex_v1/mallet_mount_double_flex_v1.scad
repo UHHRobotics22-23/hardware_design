@@ -1,3 +1,6 @@
+/**
+ * The first double flex mallet mount
+ */
 $fa = 1;
 $fs = 0.4;
 side_wall_length = 90;
@@ -8,12 +11,14 @@ side_wall_thickness = 5;
 mallet_handle_radius=9.6/2;
 side_wall_center_distance = mallet_handle_radius*2+1.5+side_wall_thickness/2;
 
+// Module for a standard mallet object
 module mallet() {
     cylinder(h=mallet_length+mallet_sphere_radius, r=mallet_handle_radius);
     translate([0, 0, mallet_length+mallet_sphere_radius])
         sphere(r=mallet_sphere_radius, center=true);
 }
 
+// Base Module for the left and right side wall
 module side_wall() {
     difference() {
         cube([side_wall_length, side_wall_length, side_wall_thickness], center=true);
@@ -25,6 +30,7 @@ module side_wall() {
 
 }
 
+// Module for the right side wall
 module side_wall_right() {
     difference() {
         side_wall();
@@ -34,6 +40,7 @@ module side_wall_right() {
     }
 }
 
+// Module for the left side wall with multiple objects connecting to the right sidewall
 module side_wall_left() {
     wall_to_wall_distance = side_wall_center_distance*2-side_wall_thickness/2;
     side_wall();
@@ -67,15 +74,18 @@ module side_wall_left() {
             screw_holes(6, 3, side_wall_length/2);  // 6mm deep 3mm width holes
     }
 }
+
+// Hook for rubber bands
 module rubber_hook(){
     union(){
-                        cube([10,5,5],center= true);    
-                        translate([4,-2.5,0])
-                            cube([5,10,5],center=true);
-                        
-                        }
+        cube([10,5,5],center= true);    
+        translate([4,-2.5,0])
+            cube([5,10,5],center=true);
+        
     }
+}
 
+// Module for the mallet car, the moving part in the assembly holding the mallet
 module mallet_car() {
     difference() {
         union() {
@@ -108,6 +118,7 @@ module mallet_car() {
     
 }
 
+// A ring for the rubber band to attach to the mallet car
 module rubber_attachment() {
     rotate_extrude(angle=360) {
         translate([4, 0, 0])
@@ -115,6 +126,7 @@ module rubber_attachment() {
     }
 }
 
+// The full assembly
 module mallet_holder() {
     translate([0, side_wall_center_distance, 0])
         rotate([90, 0, 0])
@@ -130,6 +142,7 @@ module mallet_holder() {
     }
 }
 
+// Template for the screw holes connecting both sides
 module screw_holes(depth, width, corners) {
     posVal = corners - side_wall_thickness / 2;
     translate([0, 0, -depth+0.001]) {

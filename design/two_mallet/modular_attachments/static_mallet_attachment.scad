@@ -1,3 +1,6 @@
+/*
+ * Static mallet holder attachment for the two mallet assembly
+ */
 $fa = 1;
 $fs = 0.4;
 
@@ -6,6 +9,7 @@ mallet_sphere_radius = 36.75/2;
 mallet_sphere_height_h = 32/2;
 mallet_handle_radius=9.6/2;
 
+// Module for a standard mallet object
 module mallet() {
     cylinder(h=mallet_length+mallet_sphere_height_h, r=mallet_handle_radius);
     translate([0, 0, mallet_length+mallet_sphere_height_h])
@@ -13,6 +17,7 @@ module mallet() {
         sphere(r=mallet_sphere_radius, center=true);
 }
 
+// Module for the attachment connector
 module claw(){
    difference(){
        union(){
@@ -34,6 +39,7 @@ module claw(){
     }
 }
 
+// The element holding the mallet
 module mallet_car() {
     difference() {
         union() {
@@ -54,6 +60,7 @@ module mallet_car() {
     
 }
 
+// The module for the attachment connector
 module attachment() {
     difference() {
         union() {
@@ -70,6 +77,7 @@ module attachment() {
     }
 }
 
+// The full module
 module static_attachment() {
     attachment();
     translate([35/2, 35+12, 50/2])

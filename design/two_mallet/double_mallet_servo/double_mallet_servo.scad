@@ -1,3 +1,7 @@
+/*
+ * The first version of the two mallet holder servo controlled part
+ */
+
 $fa = 1;
 $fs = 0.4;
 /////////////////////////SERVO MODEL////////////////////////////
@@ -34,6 +38,7 @@ module servo(){
   
 }
 
+// Screw Holder for connecting the servo
 module screwholes_servo(){
      translate([0, 0, 7.9]) {
         translate([5, -7.25/2, 0]){
@@ -50,6 +55,7 @@ module screwholes_servo(){
     }
 }
 
+// Module model for the drive shaft cross attachment used from the servo kit
 module drive_shaft_attachment(){
     translate([-19,-19,0]){
         difference(){
@@ -80,6 +86,7 @@ module drive_shaft_attachment(){
 }
 
 ////////////////////////////////Servo Moveable Mallet//////////////////////////////
+// Module with the servo casing and attachment claw
 module mounting_plate(){
      color([0,1,0])
     difference(){
@@ -152,6 +159,7 @@ module mounting_plate(){
 
 
 ////////////////////////////////Housing # Main Structure//////////////////////////////
+// Main structure for the housing with the claw for the fixed element
 module housing(){
     difference(){
         union(){
@@ -190,6 +198,8 @@ module housing(){
         
 }
 }
+
+// Module for the screwholes in the main housing 
 module screwholes(){
      translate([-9,4.3,0]){
             
@@ -235,17 +245,21 @@ module screwholes(){
          }
 
 }
+
+// Helper Module for counter sunk screw holes allowing for flush screws
 module countersunk(){
     rotate([0,180,]){
-    translate([0,0,-6]){
-    translate([0,0,+1.67])
-        cylinder(20,6/2,6/2);
-    cylinder(  1.7,    3/2,    6/2, false);
-    translate([0,0,-19]) 
-        cylinder(30,3/2,3/2);
+        translate([0,0,-6]){
+            translate([0,0,+1.67])
+                cylinder(20,6/2,6/2);
+            cylinder(  1.7,    3/2,    6/2, false);
+            translate([0,0,-19]) 
+                cylinder(30,3/2,3/2);
+        }
     }
-    }
-    }
+}
+
+// Module for the top plate with the bearing and one of the sidewalls
 module top_plate_housing(){
     difference(){
         union(){
@@ -300,6 +314,7 @@ module top_plate_housing(){
 }
 }
 
+// Module for the attachment connector
 module claw(){
    difference(){
    union(){
@@ -326,6 +341,8 @@ module claw(){
    }
 }
 }
+
+// Model of the gripper palm
 module palm() {
 	import("palm_1.stl");
 }

@@ -47,6 +47,8 @@ A [Raspberry Pi Pico W](https://www.raspberrypi.com/documentation/microcontrolle
 
 ### Protocol
 The protocol used for the communication between ROS and the microcontroller is based on simple string commands. For both the wifi and serial version the same protocol is used.
+Commands for the serial version have to be \n terminated.
+The wifi version accepts both with and without
 
 At first the ROS side is expected to request the bounds and resolution using the "l" command.
 This allows for multiple devices with different bound to be used interchangeably though it could also be realized with config parameters on the ROS side.
