@@ -25,9 +25,27 @@ v2 -> enhanced version of v1
 
 ## Firmware
 
-### Wifi
+### Protocol
+The protocol used for the communication between ROS and the microcontroller is based on simple string commands. For both the wifi and serial version the same protocol is used.
 
-### Serial
+At first the ROS side is expected to request the bounds and resolution using the "l" command.
+This allows for multiple devices with different bound to be used interchangeably though it could also be realized with config parameters on the ROS side.
+
+The "p" command is used in the read phase of the hardware_interface (See [marimbabot_hardware](https://github.com/UHHRobotics22-23/marimbabot/tree/main/marimbabot_hardware)).
+
+Lastly the "s" command allows the ROS side to give a integer valued command position to the microcontroller.
+
+| Command           | Response                               | Command Description                             | Response Description                                                                                     |
+|-------------------|----------------------------------------|-------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| s \<value>        | ok, err_input_num, err_input_range     | Commands the servo to move to the value <value> | Errors for invalid number formats or numbers out of range of the safety limits or ok for acknowledgement |
+| p                 | p \<value>                             | Requests the current target value               | Returns the current target value <value>                                                                 |
+| l                 | l <min_val> <max_val> <val_resolution> | Requests the limits of the device               | Return the max and min value bounds and the resolution of the value parameter (0-res)                    |
+| <invalid_command> | err_cmd                                | Any command other than the listed ones          | Error code for and invalid / unknown command                                                             |
+
+### Flavours
+#### Wifi
+
+#### Serial
 
 ## Electronics Design
 
