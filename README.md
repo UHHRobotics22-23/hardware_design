@@ -2,6 +2,9 @@
 This repository contains the design files associated with the hardware mallet holder.
 Further the firmware employed on the micro controller and a supporting calibration procedure script is contained.
 
+![The mallet holder assembly in the custom gripper of the UR5](doc/hardware_in_gripper.jpg)
+*The mallet holder assembly in the custom gripper of the UR5*
+
 ## Hardware Model Design
 [OpenSCAD](https://openscad.org/) was used for the design of the 3D printable models.
 Generally the designs can be separated into one and two mallet design, where the one mallet designs were the basis for the two mallet approaches.
