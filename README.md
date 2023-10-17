@@ -2,12 +2,13 @@
 This repository contains the design files associated with the hardware mallet holder.
 Further the firmware employed on the micro controller and a supporting calibration procedure script is contained.
 
-![The mallet holder assembly in the custom gripper of the UR5](doc/hardware_in_gripper.jpg)
-*The mallet holder assembly in the custom gripper of the UR5*
+![The mallet holder assembly in the gripper of the UR5](doc/hardware_in_gripper.jpg)
+*The mallet holder assembly in the gripper of the UR5*
 
 ## Hardware Model Design
 [OpenSCAD](https://openscad.org/) was used for the design of the 3D printable models.
 Generally the designs can be separated into one and two mallet design, where the one mallet designs were the basis for the two mallet approaches.
+All designs were created to be used in the [three finger gripper](https://robotiq.com/products/3-finger-adaptive-robot-gripper) employed as the end effector of the UR5.
 
 ### Two Mallet Designs
 The two mallet designs are split into two categories, the servo controlled element and the attachments.
@@ -20,7 +21,7 @@ The first version of the servo controlled element [double_mallet_servo](design/t
 [double_mallet_servo_compliant_full](design/two_mallet/double_mallet_servo/double_mallet_servo_compliant_full.scad) was used to generated STL models for a first URDF file with the [double_flex_v2](design/two_mallet/modular_attachments/double_flex_v2.scad) included.
 Later versions were created in a more modular fashion.
 
-[double_mallet_servo_UR5](design/two_mallet/double_mallet_servo/double_mallet_servo_UR5.scad) is the second iteration of the element. The length of the part was increased to allow the custom gripper to grab the device from the top.
+[double_mallet_servo_UR5](design/two_mallet/double_mallet_servo/double_mallet_servo_UR5.scad) is the second iteration of the element. The length of the part was increased to allow the gripper to grab the device from the top.
 Further the control and power electronics could be added to the back.
 The top plate was changed to have indexing ridges to the gripper end effector of the UR5.
 The [double_mallet_servo_UR5_battery](design/two_mallet/double_mallet_servo/double_mallet_servo_UR5_battery.scad) added a battery holder for the 2s lipo to the bottom plate.
@@ -93,7 +94,7 @@ The baud rate can be adjusted in the setup function. A high baud rate is needed 
 
 ## Electronics Design
 The system was designed to be fully portable and battery powered to enable the usage in differing robotic arms.
-Further the main used arms power budget was not able to power the device as the custom end effector gripper exhausted this.
+Further the main used arms power budget was not able to power the device as the  end effector gripper exhausted this.
 
 List of parts:
 - Servo: [JX Servo CLS6336HV](http://jx-servo.com/en/Product/CORELESS1/HVcs/480.html)
