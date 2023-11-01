@@ -84,6 +84,11 @@ The wifi firmware is found in the [mallet_play_servo_wifi](arduino_code/mallet_p
 The SSID and the password of the generated network can be set at the top of the file and needs reflashing.
 Further the port of the UDP server can be adjusted inside of the setup function.
 
+Currently the defaults are:  
+SSID: **Marimbabot_Mallet**  
+PWD: **12345678**  
+PORT: **8888**
+
 Additional Note: In the libraries for the Raspberry Pi Pico W we found the Servo library to behave in unexpected ways which required a doubling of the input value to achieve the actually requested angle.
 
 #### Serial
